@@ -1,0 +1,33 @@
+.searched-location-container {
+  max-width: 50vw;
+  display: flex;
+  align-content: center;
+  text-align: center;
+  padding: 0.5rem 1rem;
+  border: 1px solid;
+  margin: 1rem auto 2rem auto;
+}
+
+.location-info-wrapper {
+  display: flex;
+  padding: 1rem;
+  border: 1px solid;
+  align-items: center;
+}
+
+.location-icon {
+  font-size: 2.5em;
+  margin: 0 1rem 1rem 0;
+}
+
+.location-info {
+  display: inline-flex;
+  flex-direction: column;
+  padding: 0 0.5rem;
+}
+
+.favorite-btn {
+  padding: 1rem;
+  height: 50%;
+  margin: auto 0 auto auto;
+}

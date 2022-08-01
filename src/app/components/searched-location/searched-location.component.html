@@ -1,0 +1,26 @@
+<section class="searched-location-container">
+  <div class="location-info-wrapper">
+    <fa-icon [icon]="faLocationDot" class="location-icon"></fa-icon>
+    <div *ngIf="locationResult" class="location-info">
+      <p>{{ locationResult.name }}</p>
+      <p>{{ locationResult.temperature }}</p>
+    </div>
+  </div>
+  <button class="favorite-btn">
+    <ng-container
+      *ngIf="
+        locationResult && locationResult?.isFavorite;
+        then fullHeart;
+        else emptyHeart
+      "
+    ></ng-container>
+    <ng-template #fullHeart>
+      <fa-icon [icon]="faFullHeart"></fa-icon>
+    </ng-template>
+    <ng-template #emptyHeart>
+      <fa-icon [icon]="faEmptyHeart"></fa-icon>
+    </ng-template>
+
+    <!--  add to fav/ remove from fav -->
+  </button>
+</section>

@@ -1,0 +1,16 @@
+<ul class="cards-container">
+  <li class="card" *ngFor="let card of cards; index as i">
+    <ng-container
+      [ngTemplateOutlet]="customTemplateRef"
+      [ngTemplateOutletContext]="{ $implicit: card, index: i }"
+    ></ng-container>
+    <!--              <button
+                (click)="getItem(indexItem)"
+                title="Remove"
+                type="button"
+                class="btn-remove"
+            >
+                +
+            </button> -->
+  </li>
+</ul>

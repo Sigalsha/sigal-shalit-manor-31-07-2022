@@ -1,0 +1,39 @@
+<!-- <form class="example-form">
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>City</mat-label>
+
+    <input
+      class="search-input"
+      type="text"
+      matInput
+      [formControl]="searchControl"
+      [matAutocomplete]="auto"
+      required
+      minLength="1"
+    />
+    <fa-icon [icon]="faMagnifyingGlass" class="search-icon"></fa-icon>
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option
+        *ngFor="let option of filteredOptions | async"
+        [value]="option"
+      >
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>
+ -->
+<div class="example-form">
+  <label for="search-text"></label>
+  <input
+    type="text"
+    class="search-input"
+    id="search-text"
+    name="search"
+    aria-describedby="search-text"
+    [(ngModel)]="searchText"
+    placeholder="Enter text to search"
+    autofocus="off"
+    required
+  />
+</div>

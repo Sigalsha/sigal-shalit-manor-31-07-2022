@@ -1,0 +1,152 @@
+[
+  {
+    "Version": 1,
+    "Key": "2580066",
+    "Type": "City",
+    "Rank": 15,
+    "LocalizedName": "Enshi Prefecture",
+    "Country": {
+      "ID": "CN",
+      "LocalizedName": "China"
+    },
+    "AdministrativeArea": {
+      "ID": "HB",
+      "LocalizedName": "Hubei"
+    }
+  },
+  {
+    "Version": 1,
+    "Key": "52478",
+    "Type": "City",
+    "Rank": 21,
+    "LocalizedName": "Edmonton",
+    "Country": {
+      "ID": "CA",
+      "LocalizedName": "Canada"
+    },
+    "AdministrativeArea": {
+      "ID": "AB",
+      "LocalizedName": "Alberta"
+    }
+  },
+  {
+    "Version": 1,
+    "Key": "206937",
+    "Type": "City",
+    "Rank": 21,
+    "LocalizedName": "Erbil",
+    "Country": {
+      "ID": "IQ",
+      "LocalizedName": "Iraq"
+    },
+    "AdministrativeArea": {
+      "ID": "AR",
+      "LocalizedName": "Erbil"
+    }
+  },
+  {
+    "Version": 1,
+    "Key": "59268",
+    "Type": "City",
+    "Rank": 23,
+    "LocalizedName": "Ezhou",
+    "Country": {
+      "ID": "CN",
+      "LocalizedName": "China"
+    },
+    "AdministrativeArea": {
+      "ID": "HB",
+      "LocalizedName": "Hubei"
+    }
+  },
+  {
+    "Version": 1,
+    "Key": "233934",
+    "Type": "City",
+    "Rank": 25,
+    "LocalizedName": "Ecatepec de Morelos",
+    "Country": {
+      "ID": "MX",
+      "LocalizedName": "Mexico"
+    },
+    "AdministrativeArea": {
+      "ID": "MEX",
+      "LocalizedName": "México"
+    }
+  },
+  {
+    "Version": 1,
+    "Key": "327336",
+    "Type": "City",
+    "Rank": 30,
+    "LocalizedName": "Edinburgh",
+    "Country": {
+      "ID": "GB",
+      "LocalizedName": "United Kingdom"
+    },
+    "AdministrativeArea": {
+      "ID": "EDH",
+      "LocalizedName": "City of Edinburgh"
+    }
+  },
+  {
+    "Version": 1,
+    "Key": "252750",
+    "Type": "City",
+    "Rank": 31,
+    "LocalizedName": "Enugu",
+    "Country": {
+      "ID": "NG",
+      "LocalizedName": "Nigeria"
+    },
+    "AdministrativeArea": {
+      "ID": "EN",
+      "LocalizedName": "Enugu"
+    }
+  },
+  {
+    "Version": 1,
+    "Key": "317798",
+    "Type": "City",
+    "Rank": 31,
+    "LocalizedName": "Elazig",
+    "Country": {
+      "ID": "TR",
+      "LocalizedName": "Turkey"
+    },
+    "AdministrativeArea": {
+      "ID": "23",
+      "LocalizedName": "Elazığ"
+    }
+  },
+  {
+    "Version": 1,
+    "Key": "317825",
+    "Type": "City",
+    "Rank": 31,
+    "LocalizedName": "Erzurum",
+    "Country": {
+      "ID": "TR",
+      "LocalizedName": "Turkey"
+    },
+    "AdministrativeArea": {
+      "ID": "25",
+      "LocalizedName": "Erzurum"
+    }
+  },
+  {
+    "Version": 1,
+    "Key": "317856",
+    "Type": "City",
+    "Rank": 31,
+    "LocalizedName": "Eskisehir",
+    "Country": {
+      "ID": "TR",
+      "LocalizedName": "Turkey"
+    },
+    "AdministrativeArea": {
+      "ID": "26",
+      "LocalizedName": "Eskişehir"
+    }
+  }
+]
