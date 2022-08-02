@@ -1,14 +1,16 @@
-import { Location } from '../models/location.model';
+import { Location } from '../../models/location.model';
 import * as favActions from '../actions/favorite.actions';
 
 export interface FavoritesState {
   favorites: Location[];
   loading: boolean;
+  isFavorite: boolean;
 }
 
 const initialState: FavoritesState = {
   favorites: [],
   loading: true,
+  isFavorite: false,
 };
 
 export function favoriteReducer(
@@ -23,14 +25,18 @@ export function favoriteReducer(
         loading: false,
       };
     case favActions.REMOVE_FROM_FAVORITES:
-      const { id } = action.payload;
-
       return {
         ...state,
-        favorites: state.favorites.filter((favorite) => favorite.id !== id),
+        favorites: state.favorites.filter(
+          (favorite) => favorite.id !== action.payload
+        ),
         loading: false,
       };
-
+    case favActions.IS_FAVORITE_LOCATION:
+      return {
+        ...state,
+        isFavorite: state.favorites.includes(action.payload),
+      };
     default:
       return state;
   }

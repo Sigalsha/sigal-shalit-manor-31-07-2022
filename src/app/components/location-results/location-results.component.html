@@ -1,7 +1,14 @@
 <section class="location-results-container">
   <app-searched-location
+    *ngIf="locationResult"
     [locationResult]="locationResult"
   ></app-searched-location>
-  <app-title [title]="currentWeatherTitle"></app-title>
-  <app-daily-forecasts [dailyForecasts]="dailyForecasts"></app-daily-forecasts>
+  <app-title
+    *ngIf="currentWeatherTitle"
+    [title]="currentWeatherTitle"
+  ></app-title>
+  <app-daily-forecasts
+    *ngIf="dailyForecasts"
+    [dailyForecasts]="dailyForecasts"
+  ></app-daily-forecasts>
 </section>

@@ -4,6 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { LocationService } from 'src/app/services/location.service';
+import { AutocompleteResult } from '../../models/autocompleteResult.model';
 export interface City {
   name: string;
 }
@@ -17,30 +18,22 @@ export class SearchbarComponent implements OnInit {
   searchText = '';
   faMagnifyingGlass = faMagnifyingGlass;
   options: string[] = ['London', 'Tel Aviv', 'Berlin'];
-  filteredOptions!: Observable<string[]>;
+  filteredOptions!: AutocompleteResult[];
   subscription!: Subscription;
+  searchChangeSub!: Subscription;
 
   constructor(private locationService: LocationService) {}
 
   ngOnInit(): void {
-    this.filteredOptions = this.searchControl.valueChanges.pipe(
+    /*     this.filteredOptions = this.searchControl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filter(value || ''))
-    );
+    ); */
     this.subscription = this.locationService
-      .getLocation('Tel')
-      .subscribe((locationRes) => {
-        console.log(locationRes);
-        /*     if (locationRes && locationRes.length > 1) {
-          this.filteredOptions = locationRes.map(
-            (location: { Key: number; LocalizedName: string }) => {
-              return {
-                id: location.Key,
-                name: location.LocalizedName,
-              };
-            }
-          );
-        } */
+      .getAutoCompleteSearchLocations('Tel')
+      .subscribe((locationsRes) => {
+        console.log(locationsRes);
+        this.filteredOptions = locationsRes;
       });
   }
 
@@ -52,7 +45,16 @@ export class SearchbarComponent implements OnInit {
     );
   }
 
+  handleSearchChange(query: string) {
+    if (query !== '') {
+      this.searchChangeSub = this.locationService
+        .getAutoCompleteSearchLocations(query)
+        .subscribe((locationsRes) => (this.filteredOptions = locationsRes));
+    }
+  }
+
   ngOnDestroy() {
     this.subscription?.unsubscribe();
+    this.searchChangeSub?.unsubscribe();
   }
 }

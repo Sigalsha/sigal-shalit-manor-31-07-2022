@@ -6,21 +6,27 @@
       <p>{{ locationResult.temperature }}</p>
     </div>
   </div>
-  <button class="favorite-btn">
-    <ng-container
-      *ngIf="
-        locationResult && locationResult.isFavorite;
-        then fullHeart;
-        else emptyHeart
-      "
-    ></ng-container>
-    <ng-template #fullHeart>
-      <fa-icon [icon]="faFullHeart"></fa-icon>
-    </ng-template>
-    <ng-template #emptyHeart>
+  <ng-container
+    *ngIf="locationResult && locationResult.isFavorite; then remove; else add"
+  ></ng-container>
+  <ng-template #remove>
+    <button
+      type="button"
+      class="favorite-btn"
+      (click)="removeFromFavorites(locationResult.id)"
+    >
       <fa-icon [icon]="faEmptyHeart"></fa-icon>
-    </ng-template>
-
-    <!--  add to fav/ remove from fav -->
-  </button>
+      <p>remove from favorites</p>
+    </button>
+  </ng-template>
+  <ng-template #add>
+    <button
+      type="button"
+      class="favorite-btn"
+      (click)="addToFavorites(locationResult)"
+    >
+      <fa-icon [icon]="faFullHeart"></fa-icon>
+      <p>add to favorites</p>
+    </button>
+  </ng-template>
 </section>

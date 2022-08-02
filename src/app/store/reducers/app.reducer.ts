@@ -3,12 +3,11 @@ import * as fromLocation from './location.reducer';
 import { ActionReducerMap } from '@ngrx/store';
 
 export interface AppState {
-  favorite: fromFavorite.FavoritesState;
+  favorites: fromFavorite.FavoritesState;
   currentLocation: fromLocation.LocationState;
 }
 
-export const reducers: ActionReducerMap<AppState, any> = {
-  favorite: fromFavorite.favoriteReducer,
+export const appReducer: ActionReducerMap<AppState, any> = {
+  favorites: fromFavorite.favoriteReducer,
   currentLocation: fromLocation.locationReducer,
-  // routerReducer: fromRouter.routerReducer,
 };

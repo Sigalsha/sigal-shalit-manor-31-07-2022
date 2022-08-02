@@ -1,20 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription, Observable, forkJoin } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import * as fromApp from '../../reducers';
+import * as fromApp from '../../store/reducers/app.reducer';
 import { WeatherService } from 'src/app/services/weather.service';
 import { Location } from '../../models/location.model';
 import { DailyForecast } from '../../models/dailyForecast.model';
 import { FiveDaysForecastResponse } from '../../models/api/fiveDaysForecastResponse.model';
 import { CurrentWeatherResponse } from '../../models/api/currentWeatherResponse.model';
-
+import * as LocationActions from '../../store/actions/location.actions';
 @Component({
   selector: 'app-location-results',
   templateUrl: './location-results.component.html',
   styleUrls: ['./location-results.component.scss'],
 })
-export class LocationResultsComponent implements OnInit {
+export class LocationResultsComponent implements OnInit, OnDestroy {
   subscription!: Subscription;
   currentWeatherTitle!: string;
   locationResult!: Location;
@@ -26,19 +25,29 @@ export class LocationResultsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    forkJoin([
-      this.weatherService.getCurrentWeather(215854),
-      this.weatherService.getFiveDaysForecast(215854),
-    ])
-      .pipe(
-        map((allWeatherData) => {
-          return this.combineAllFetchedData(allWeatherData);
-        })
-      )
-      .subscribe((allWeatherData) => {
-        this.locationResult = allWeatherData.location;
-        this.dailyForecasts = allWeatherData.forecast;
-      });
+    this.initData();
+  }
+
+  initData(): void {
+    this.subscription = this.weatherService
+      .getAllWeatherData(215854)
+      .subscribe(
+        (allWeatherData: {
+          location: Location;
+          forecasts: DailyForecast[];
+        }) => {
+          this.locationResult = allWeatherData.location;
+          this.dailyForecasts = allWeatherData.forecasts;
+          this.store.dispatch(
+            new LocationActions.SetLocation(allWeatherData.location)
+          );
+          this.store.dispatch(
+            new LocationActions.SetFiveDaysForecast(allWeatherData.forecasts)
+          );
+
+          console.log(this.locationResult, this.dailyForecasts);
+        }
+      );
   }
 
   fetchLocationResult(locationData: CurrentWeatherResponse[]): Location {
@@ -46,7 +55,7 @@ export class LocationResultsComponent implements OnInit {
       id: 215854,
       name: 'Tel Aviv',
       currentWeather: locationData[0].WeatherText,
-      temperature: locationData[0].Temperature.Metric.Value,
+      temperature: Math.ceil(locationData[0].Temperature.Metric.Value),
       isFavorite: false,
     };
   }
@@ -70,7 +79,7 @@ export class LocationResultsComponent implements OnInit {
   ) {
     return {
       location: this.fetchLocationResult(allWeatherData[0]),
-      forecast: this.fetchDailyForecast(allWeatherData[1]),
+      forecasts: this.fetchDailyForecast(allWeatherData[1]),
     };
   }
 
@@ -78,30 +87,3 @@ export class LocationResultsComponent implements OnInit {
     this.subscription?.unsubscribe();
   }
 }
-
-/**
- * 
- *     this.subscription = this.weatherService
-      .getCurrentWeather(215854)
-      .pipe(
-        map((locationRes) => {
-          return {
-            id: 215854,
-            name: 'Tel Aviv',
-            currentWeather: locationRes[0].WeatherText,
-            temperature: locationRes[0].Temperature.Metric.Value,
-            isFavorite: false,
-          };
-        })
-      )
-      .subscribe((location) => {
-        console.log(location);
-        this.locationResult = location;
-      });
- * 
- */
-/**
- * 
- *   console.log(location);
-        this.locationResult = location;
- */

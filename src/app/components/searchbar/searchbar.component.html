@@ -14,10 +14,7 @@
     />
     <!-- <fa-icon [icon]="faMagnifyingGlass" class="search-icon"></fa-icon> -->
     <mat-autocomplete #auto="matAutocomplete">
-      <mat-option
-        *ngFor="let option of filteredOptions | async"
-        [value]="option"
-      >
+      <mat-option *ngFor="let option of filteredOptions" [value]="option">
         {{ option }}
       </mat-option>
     </mat-autocomplete>

@@ -2,10 +2,11 @@
 <section>
   <app-card [cards]="favorites">
     <ng-template #customTemplateRef let-favorite let-id="index">
-      <div>{{ favorite.name }}</div>
-      <div>{{ favorite.temperature }}</div>
-      <div>{{ favorite.currentWeather }}</div>
+      <div (click)="handleFavoriteClick(favorite.id)">
+        <div>{{ favorite.name }}</div>
+        <div>{{ favorite.temperature }}</div>
+        <div>{{ favorite.currentWeather }}</div>
+      </div>
     </ng-template>
-    <!-- (onGetCard)="onGetCard($event) -->
   </app-card>
 </section>

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Observable } from 'rxjs';
 import { DailyForecast } from '../../models/dailyForecast.model';
 import { DAILY_FORECASTS } from 'src/app/mock-data/dailyForecasts';
 
@@ -8,8 +9,10 @@ import { DAILY_FORECASTS } from 'src/app/mock-data/dailyForecasts';
   styleUrls: ['./daily-forecasts.component.scss'],
 })
 export class DailyForecastsComponent implements OnInit {
-  @Input() dailyForecasts: DailyForecast[] = DAILY_FORECASTS;
+  @Input() dailyForecasts!: DailyForecast[];
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.dailyForecasts);
+  }
 }

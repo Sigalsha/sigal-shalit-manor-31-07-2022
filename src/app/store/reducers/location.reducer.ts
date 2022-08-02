@@ -1,6 +1,6 @@
-import { Location } from '../models/location.model';
+import { Location } from '../../models/location.model';
 import * as locActions from '../actions/location.actions';
-import { DailyForecast } from '../models/dailyForecast.model';
+import { DailyForecast } from '../../models/dailyForecast.model';
 
 export interface LocationState {
   currentLocation: Location;
@@ -27,13 +27,13 @@ export function locationReducer(
   action: locActions.Actions
 ): LocationState {
   switch (action.type) {
-    case locActions.GET_LOCATION:
+    case locActions.SET_LOCATION:
       return {
         ...state,
         currentLocation: action.payload,
         locationLoading: false,
       };
-    case locActions.GET_FIVE_DAYS_FORECAST:
+    case locActions.SET_FIVE_DAYS_FORECAST:
       return {
         ...state,
         dailyForecasts: action.payload,

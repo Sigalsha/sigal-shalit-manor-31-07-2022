@@ -20,14 +20,13 @@ import { HeaderComponent } from './layouts/header/header.component';
 import { MainComponent } from './layouts/main/main.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SearchbarComponent } from './components/searchbar/searchbar.component';
-import { DailyForecastComponent } from './components/daily-forecast/daily-forecast.component';
 import { DailyForecastsComponent } from './components/daily-forecasts/daily-forecasts.component';
 import { CardComponent } from './components/shared/card/card.component';
 import { TitleComponent } from './components/shared/title/title.component';
 import { SearchedLocationComponent } from './components/searched-location/searched-location.component';
 import { LocationResultsComponent } from './components/location-results/location-results.component';
 import { environment } from '../environments/environment';
-import * as allReducers from './reducers';
+import * as fromApp from './store/reducers/app.reducer';
 
 @NgModule({
   declarations: [
@@ -38,7 +37,6 @@ import * as allReducers from './reducers';
     HomeComponent,
     FavoritesComponent,
     SearchbarComponent,
-    DailyForecastComponent,
     DailyForecastsComponent,
     CardComponent,
     TitleComponent,
@@ -53,7 +51,7 @@ import * as allReducers from './reducers';
     ReactiveFormsModule,
     FontAwesomeModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot(allReducers.reducers),
+    StoreModule.forRoot(fromApp.appReducer),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     MatAutocompleteModule,
     MatFormFieldModule,
