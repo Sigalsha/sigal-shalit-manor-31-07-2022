@@ -9,7 +9,7 @@
   <button class="favorite-btn">
     <ng-container
       *ngIf="
-        locationResult && locationResult?.isFavorite;
+        locationResult && locationResult.isFavorite;
         then fullHeart;
         else emptyHeart
       "

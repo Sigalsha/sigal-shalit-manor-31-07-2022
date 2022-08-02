@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '../../../types/Location';
+import { Location } from '../../models/location.model';
 import { FAVORITES_LOCATIONS } from '../../mock-data/favoritesLocations';
 
 @Component({

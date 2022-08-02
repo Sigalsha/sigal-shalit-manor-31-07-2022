@@ -1,17 +1,18 @@
-<!-- <form class="example-form">
-  <mat-form-field class="example-full-width" appearance="fill">
+<form class="search-form">
+  <mat-form-field appearance="fill">
     <mat-label>City</mat-label>
-
     <input
       class="search-input"
       type="text"
+      aria-label="Text"
       matInput
       [formControl]="searchControl"
       [matAutocomplete]="auto"
       required
       minLength="1"
+      placeholder="Search a city"
     />
-    <fa-icon [icon]="faMagnifyingGlass" class="search-icon"></fa-icon>
+    <!-- <fa-icon [icon]="faMagnifyingGlass" class="search-icon"></fa-icon> -->
     <mat-autocomplete #auto="matAutocomplete">
       <mat-option
         *ngFor="let option of filteredOptions | async"
@@ -22,8 +23,8 @@
     </mat-autocomplete>
   </mat-form-field>
 </form>
- -->
-<div class="example-form">
+<!-- *ngFor="let option of filteredOptions | async" -->
+<!-- <div class="example-form">
   <label for="search-text"></label>
   <input
     type="text"
@@ -36,4 +37,4 @@
     autofocus="off"
     required
   />
-</div>
+</div> -->

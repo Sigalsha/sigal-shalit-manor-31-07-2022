@@ -1,5 +1,7 @@
 <section class="location-results-container">
-  <app-searched-location></app-searched-location>
-  <app-title title="fetchDataHere"></app-title>
-  <app-daily-forecasts></app-daily-forecasts>
+  <app-searched-location
+    [locationResult]="locationResult"
+  ></app-searched-location>
+  <app-title [title]="currentWeatherTitle"></app-title>
+  <app-daily-forecasts [dailyForecasts]="dailyForecasts"></app-daily-forecasts>
 </section>

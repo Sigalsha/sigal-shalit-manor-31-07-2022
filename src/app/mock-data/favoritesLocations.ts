@@ -1,4 +1,4 @@
-import { Location } from '../../types/Location';
+import { Location } from '../models/location.model';
 
 export const FAVORITES_LOCATIONS: Location[] = [
   {

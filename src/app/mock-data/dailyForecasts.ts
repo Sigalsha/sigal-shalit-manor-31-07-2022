@@ -1,4 +1,4 @@
-import { DailyForecast } from '../../types/DailyForecast';
+import { DailyForecast } from '../models/dailyForecast.model';
 
 export const DAILY_FORECASTS: DailyForecast[] = [
   {

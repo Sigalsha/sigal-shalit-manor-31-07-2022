@@ -1,4 +1,4 @@
-import { Location } from '../../types/Location';
+import { Location } from '../models/location.model';
 
 export const LOCATION_RESULT: Location = {
   id: 2580066,

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { DailyForecast } from '../../../types/DailyForecast';
+import { Component, OnInit, Input } from '@angular/core';
+import { DailyForecast } from '../../models/dailyForecast.model';
 import { DAILY_FORECASTS } from 'src/app/mock-data/dailyForecasts';
 
 @Component({
@@ -8,7 +8,7 @@ import { DAILY_FORECASTS } from 'src/app/mock-data/dailyForecasts';
   styleUrls: ['./daily-forecasts.component.scss'],
 })
 export class DailyForecastsComponent implements OnInit {
-  dailyForecasts: DailyForecast[] = DAILY_FORECASTS;
+  @Input() dailyForecasts: DailyForecast[] = DAILY_FORECASTS;
   constructor() {}
 
   ngOnInit(): void {}
