@@ -6,6 +6,7 @@ export const REMOVE_FROM_FAVORITES = 'REMOVE_FROM_FAVORITES';
 export const FAVORITES_LOADING = 'FAVORITES_LOADING';
 export const GET_FAVORITES = 'GET_FAVORITES';
 export const IS_FAVORITE_LOCATION = 'IS_FAVORITE_LOCATION';
+export const CLEAR_ALL_FAVORITES = 'CLEAR_ALL_FAVORITES';
 
 export class AddToFavorite implements Action {
   readonly type = ADD_TO_FAVORITES;
@@ -37,9 +38,16 @@ export class IsFavoriteLocation implements Action {
   constructor(public payload: Location) {}
 }
 
+export class ClearAllFavorites implements Action {
+  readonly type = CLEAR_ALL_FAVORITES;
+
+  constructor() {}
+}
+
 export type Actions =
   | AddToFavorite
   | RemoveFromFavorites
   | SetFavoritesLoading
   | GetFavorites
-  | IsFavoriteLocation;
+  | IsFavoriteLocation
+  | ClearAllFavorites;

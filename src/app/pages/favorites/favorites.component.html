@@ -1,6 +1,6 @@
 <app-title title="Favorites"></app-title>
 <section>
-  <app-card [cards]="favorites">
+  <app-card *ngIf="favorites" [cards]="favorites">
     <ng-template #customTemplateRef let-favorite let-id="index">
       <div (click)="handleFavoriteClick(favorite.id)">
         <div>{{ favorite.name }}</div>
@@ -9,4 +9,8 @@
       </div>
     </ng-template>
   </app-card>
+
+  <button type="button" (click)="clearAllFavorites()">
+    clear all favorites
+  </button>
 </section>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, forkJoin } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { CurrentWeatherResponse } from '../models/api/currentWeatherResponse.model';
 import { FiveDaysForecastResponse } from '../models/api/fiveDaysForecastResponse.model';
@@ -18,20 +18,18 @@ export class WeatherService {
   constructor(private http: HttpClient) {}
 
   getCurrentWeather(id: number): Observable<CurrentWeatherResponse[]> {
-    const params = new HttpParams().set('apikey', this._apiKey);
-    return this.http.get<CurrentWeatherResponse[]>(`${this._apiUrl}${id}`, {
-      params,
-    });
-  }
-
-  getFiveDaysForecast(id: number): Observable<FiveDaysForecastResponse> {
-    const params = new HttpParams()
-      .set('apikey', this._apiKey)
-      .set('metric', true);
+    const httpHeaders = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
+      }),
+    };
+    const options = {
+      httpHeaders,
+      params: new HttpParams().set('apikey', this._apiKey),
+    };
     return this.http
-      .get<FiveDaysForecastResponse>(`${this._apiUrlDays}${id}`, {
-        params,
-      })
+      .get<CurrentWeatherResponse[]>(`${this._apiUrl}${id}`, options)
       .pipe(
         map(
           (res) => res,
@@ -43,24 +41,49 @@ export class WeatherService {
       );
   }
 
-  getAllWeatherData(id: number) {
+  getFiveDaysForecast(id: number): Observable<FiveDaysForecastResponse> {
+    const httpHeaders = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
+      }),
+    };
+    const options = {
+      httpHeaders,
+      params: new HttpParams().set('apikey', this._apiKey).set('metric', true),
+    };
+    return this.http
+      .get<FiveDaysForecastResponse>(`${this._apiUrlDays}${id}`, options)
+      .pipe(
+        map(
+          (res) => res,
+          catchError((err) => {
+            console.log(err);
+            return err;
+          })
+        )
+      );
+  }
+
+  getAllWeatherData(id: number, locationName?: string) {
     return forkJoin([
       this.getCurrentWeather(id),
       this.getFiveDaysForecast(id),
     ]).pipe(
       map((allWeatherData) => {
-        return this.combineAllFetchedData(allWeatherData, id);
+        return this.combineAllFetchedData(allWeatherData, id, locationName);
       })
     );
   }
 
   fetchLocationResult(
     locationData: CurrentWeatherResponse[],
-    id: number
+    id: number,
+    locationName?: string
   ): Location {
     return {
       id: id,
-      name: 'Tel Aviv',
+      name: locationName ? locationName : 'Tel Aviv',
       currentWeather: locationData[0].WeatherText,
       temperature: Math.ceil(locationData[0].Temperature.Metric.Value),
       isFavorite: false,
@@ -69,12 +92,13 @@ export class WeatherService {
 
   fetchDailyForecast(
     dailyForecastData: FiveDaysForecastResponse,
-    id: number
+    id: number,
+    locationName?: string
   ): DailyForecast[] {
     return dailyForecastData.DailyForecasts.map((dailyForecast) => {
       const fetchedDailyForecast: DailyForecast = {
         locationID: id,
-        locationName: 'Tel Aviv',
+        locationName: locationName ? locationName : 'Tel Aviv',
         day: new Date(dailyForecast.Date),
         temperature: Math.ceil(dailyForecast.Temperature.Maximum.Value),
       };
@@ -84,11 +108,17 @@ export class WeatherService {
 
   combineAllFetchedData(
     allWeatherData: [CurrentWeatherResponse[], FiveDaysForecastResponse],
-    id: number
+    id: number,
+    locationName?: string
   ) {
+    console.log(
+      'dailyF from service',
+      this.fetchDailyForecast(allWeatherData[1], id, locationName)
+    );
+
     return {
-      location: this.fetchLocationResult(allWeatherData[0], id),
-      forecasts: this.fetchDailyForecast(allWeatherData[1], id),
+      location: this.fetchLocationResult(allWeatherData[0], id, locationName),
+      forecasts: this.fetchDailyForecast(allWeatherData[1], id, locationName),
     };
   }
 }

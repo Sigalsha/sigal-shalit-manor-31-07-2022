@@ -8,6 +8,7 @@ import { DailyForecast } from '../../models/dailyForecast.model';
 import { FiveDaysForecastResponse } from '../../models/api/fiveDaysForecastResponse.model';
 import { CurrentWeatherResponse } from '../../models/api/currentWeatherResponse.model';
 import * as LocationActions from '../../store/actions/location.actions';
+import { DefaultLocation } from '../../mocks/locationMock';
 @Component({
   selector: 'app-location-results',
   templateUrl: './location-results.component.html',
@@ -15,6 +16,8 @@ import * as LocationActions from '../../store/actions/location.actions';
 })
 export class LocationResultsComponent implements OnInit, OnDestroy {
   subscription!: Subscription;
+  locDataSub!: Subscription;
+  dailyForecastSub!: Subscription;
   currentWeatherTitle!: string;
   locationResult!: Location;
   dailyForecasts!: DailyForecast[];
@@ -29,61 +32,53 @@ export class LocationResultsComponent implements OnInit, OnDestroy {
   }
 
   initData(): void {
-    this.subscription = this.weatherService
-      .getAllWeatherData(215854)
-      .subscribe(
-        (allWeatherData: {
-          location: Location;
-          forecasts: DailyForecast[];
-        }) => {
-          this.locationResult = allWeatherData.location;
-          this.dailyForecasts = allWeatherData.forecasts;
-          this.store.dispatch(
-            new LocationActions.SetLocation(allWeatherData.location)
-          );
-          this.store.dispatch(
-            new LocationActions.SetFiveDaysForecast(allWeatherData.forecasts)
-          );
+    this.subscribeToLocationData();
+    this.subscribeToDailyForecastData();
+    if (this.locationResult.id === 0) {
+      this.subscription = this.weatherService
+        .getAllWeatherData(DefaultLocation.currentLocation.id)
+        .subscribe(
+          (allWeatherData: {
+            location: Location;
+            forecasts: DailyForecast[];
+          }) => {
+            this.locationResult = allWeatherData.location;
+            this.dailyForecasts = allWeatherData.forecasts;
+            this.store.dispatch(
+              new LocationActions.SetLocation(allWeatherData.location)
+            );
+            this.store.dispatch(
+              new LocationActions.SetFiveDaysForecast(allWeatherData.forecasts)
+            );
+          }
+        );
+    }
+  }
 
-          console.log(this.locationResult, this.dailyForecasts);
-        }
+  subscribeToLocationData(): void {
+    console.log('results change');
+
+    this.locDataSub = this.store
+      .select('currentLocation')
+      .subscribe(
+        (locationData) => (this.locationResult = locationData.currentLocation)
       );
   }
 
-  fetchLocationResult(locationData: CurrentWeatherResponse[]): Location {
-    return {
-      id: 215854,
-      name: 'Tel Aviv',
-      currentWeather: locationData[0].WeatherText,
-      temperature: Math.ceil(locationData[0].Temperature.Metric.Value),
-      isFavorite: false,
-    };
-  }
+  subscribeToDailyForecastData(): void {
+    console.log('results change 2');
 
-  fetchDailyForecast(
-    dailyForecastData: FiveDaysForecastResponse
-  ): DailyForecast[] {
-    return dailyForecastData.DailyForecasts.map((dailyForecast) => {
-      const fetchedDailyForecast: DailyForecast = {
-        locationID: 215854,
-        locationName: 'Tel Aviv',
-        day: new Date(dailyForecast.Date),
-        temperature: Math.ceil(dailyForecast.Temperature.Maximum.Value),
-      };
-      return fetchedDailyForecast;
-    });
-  }
-
-  combineAllFetchedData(
-    allWeatherData: [CurrentWeatherResponse[], FiveDaysForecastResponse]
-  ) {
-    return {
-      location: this.fetchLocationResult(allWeatherData[0]),
-      forecasts: this.fetchDailyForecast(allWeatherData[1]),
-    };
+    this.dailyForecastSub = this.store
+      .select('currentLocation')
+      .subscribe(
+        (dailyForecastData) =>
+          (this.dailyForecasts = dailyForecastData.dailyForecasts)
+      );
   }
 
   ngOnDestroy() {
     this.subscription?.unsubscribe();
+    this.locDataSub?.unsubscribe();
+    this.dailyForecastSub?.unsubscribe();
   }
 }

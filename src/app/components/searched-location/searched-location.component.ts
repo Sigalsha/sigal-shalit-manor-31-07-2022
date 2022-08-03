@@ -7,6 +7,7 @@ import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faFullHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faEmptyHeart } from '@fortawesome/free-regular-svg-icons';
 import { Location } from '../../models/location.model';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
   selector: 'app-searched-location',
@@ -19,8 +20,12 @@ export class SearchedLocationComponent implements OnInit {
   faEmptyHeart = faEmptyHeart;
   @Input() locationResult!: Location;
   subscription!: Subscription;
+  isCurrentLocationFavorite: boolean = false;
 
-  constructor(private store: Store<fromApp.AppState>) {}
+  constructor(
+    private store: Store<fromApp.AppState>,
+    private localStorageService: LocalStorageService
+  ) {}
 
   ngOnInit(): void {
     this.isFavoriteLocation(this.locationResult);
@@ -30,10 +35,27 @@ export class SearchedLocationComponent implements OnInit {
     this.store.dispatch(
       new FavoriteActions.AddToFavorite({ ...favorite, isFavorite: true })
     );
+    this.store
+      .select('favorites')
+      .subscribe((updatedFavorites) =>
+        this.localStorageService.setFavoritesLocations(
+          updatedFavorites.favorites
+        )
+      );
+
+    this.isCurrentLocationFavorite = true;
   }
 
   removeFromFavorites(id: number): void {
     this.store.dispatch(new FavoriteActions.RemoveFromFavorites(id));
+    this.store
+      .select('favorites')
+      .subscribe((updatedFavorites) =>
+        this.localStorageService.setFavoritesLocations(
+          updatedFavorites.favorites
+        )
+      );
+    this.isCurrentLocationFavorite = false;
   }
 
   isFavoriteLocation(locationResult: Location): void {

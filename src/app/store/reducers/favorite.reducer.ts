@@ -4,7 +4,7 @@ import * as favActions from '../actions/favorite.actions';
 export interface FavoritesState {
   favorites: Location[];
   loading: boolean;
-  isFavorite: boolean;
+  isFavorite?: boolean;
 }
 
 const initialState: FavoritesState = {
@@ -21,7 +21,7 @@ export function favoriteReducer(
     case favActions.ADD_TO_FAVORITES:
       return {
         ...state,
-        favorites: [action.payload, ...state.favorites],
+        favorites: [...state.favorites, action.payload],
         loading: false,
       };
     case favActions.REMOVE_FROM_FAVORITES:
@@ -36,6 +36,12 @@ export function favoriteReducer(
       return {
         ...state,
         isFavorite: state.favorites.includes(action.payload),
+      };
+    case favActions.CLEAR_ALL_FAVORITES:
+      return {
+        ...state,
+        favorites: [],
+        isFavorite: false,
       };
     default:
       return state;

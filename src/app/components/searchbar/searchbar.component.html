@@ -1,4 +1,7 @@
-<form class="search-form">
+<form
+  class="search-form"
+  (ngSubmit)="handleAutocompleteSearch(searchControl.value)"
+>
   <mat-form-field appearance="fill">
     <mat-label>City</mat-label>
     <input
@@ -13,25 +16,16 @@
       placeholder="Search a city"
     />
     <!-- <fa-icon [icon]="faMagnifyingGlass" class="search-icon"></fa-icon> -->
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let option of filteredOptions" [value]="option">
-        {{ option }}
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+      <mat-option
+        *ngFor="let option of filteredOptions | async"
+        [value]="option"
+      >
+        {{ option.name }}
       </mat-option>
     </mat-autocomplete>
+    <button type="submit" mat-button>
+      <fa-icon [icon]="faMagnifyingGlass"></fa-icon>
+    </button>
   </mat-form-field>
 </form>
-<!-- *ngFor="let option of filteredOptions | async" -->
-<!-- <div class="example-form">
-  <label for="search-text"></label>
-  <input
-    type="text"
-    class="search-input"
-    id="search-text"
-    name="search"
-    aria-describedby="search-text"
-    [(ngModel)]="searchText"
-    placeholder="Enter text to search"
-    autofocus="off"
-    required
-  />
-</div> -->

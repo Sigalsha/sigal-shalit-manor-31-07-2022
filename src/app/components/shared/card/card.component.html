@@ -1,5 +1,5 @@
 <ul class="cards-container">
-  <ng-container *ngIf="cards && cards.length > 1">
+  <ng-container *ngIf="cards">
     <li class="card" *ngFor="let card of cards; index as i">
       <ng-container
         [ngTemplateOutlet]="customTemplateRef"

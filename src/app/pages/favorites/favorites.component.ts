@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, map, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -7,6 +7,8 @@ import { Location } from '../../models/location.model';
 import { DailyForecast } from '../../models/dailyForecast.model';
 import { WeatherService } from 'src/app/services/weather.service';
 import * as LocationActions from '../../store/actions/location.actions';
+import * as FavoriteActions from '../../store/actions/favorite.actions';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
   selector: 'app-favorites',
@@ -21,17 +23,27 @@ export class FavoritesComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromApp.AppState>,
     private router: Router,
-    private weatherService: WeatherService
+    private weatherService: WeatherService,
+    private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit(): void {
     this.subscription = this.store
       .select('favorites')
-      .subscribe((favLocations) => (this.favorites = favLocations.favorites));
+      .subscribe((favLocations) =>
+        favLocations &&
+        favLocations.favorites &&
+        favLocations.favorites.length >= 1
+          ? (this.favorites = favLocations.favorites)
+          : this.localStorageService.getFavoritesLocations().length >= 1
+          ? (this.favorites = this.localStorageService.getFavoritesLocations())
+          : (this.favorites = [])
+      );
+    console.log('favorites ', this.favorites);
   }
 
   handleFavoriteClick(id: number): void {
-    debugger;
+    // debugger;
     this.favLocationSubscription = this.weatherService
       .getAllWeatherData(id)
       .subscribe(
@@ -48,6 +60,11 @@ export class FavoritesComponent implements OnInit, OnDestroy {
         }
       );
     this.router.navigate(['/']);
+  }
+
+  clearAllFavorites(): void {
+    this.localStorageService.clearFavoritesLocations();
+    this.store.dispatch(new FavoriteActions.ClearAllFavorites());
   }
 
   ngOnDestroy() {

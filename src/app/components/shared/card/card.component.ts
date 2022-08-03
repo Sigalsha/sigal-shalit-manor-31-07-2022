@@ -16,7 +16,7 @@ import { DailyForecast } from '../../../models/dailyForecast.model';
   styleUrls: ['./card.component.scss'],
 })
 export class CardComponent {
-  @Input() cards: Location[] | DailyForecast[] = [];
+  @Input() cards!: Location[] | DailyForecast[];
   // @Output() onGetCard: EventEmitter<any> = new EventEmitter();
 
   @ContentChild(TemplateRef) customTemplateRef!: TemplateRef<any>;

@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { FAVORITES_LOCATIONS } from '../mock-data/favoritesLocations';
-import { DAILY_FORECASTS } from '../mock-data/dailyForecasts';
-import { LOCATION_RESULT } from '../mock-data/location-result';
-import { Location } from '../models/location.model';
 import { LocationAutocompleteResponse } from '../models/api/locationAutocompleteResponse.model';
 import { AutocompleteResult } from '../models/autocompleteResult.model';
 @Injectable({
@@ -14,7 +10,6 @@ import { AutocompleteResult } from '../models/autocompleteResult.model';
 })
 export class LocationService {
   private _apiUrl = environment.autocompleteApi;
-
   private _apiKey = environment.apiKey;
 
   constructor(private http: HttpClient) {}
@@ -22,15 +17,29 @@ export class LocationService {
   getAutoCompleteSearchLocations(
     query: string
   ): Observable<AutocompleteResult[]> {
-    const params = new HttpParams().set('apikey', this._apiKey).set('q', query);
+    const httpHeaders = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    const options = {
+      httpHeaders,
+      params: new HttpParams().set('apikey', this._apiKey).set('q', query),
+    };
     return this.http
-      .get<LocationAutocompleteResponse[]>(this._apiUrl, {
-        params,
-      })
+      .get<LocationAutocompleteResponse[]>(this._apiUrl, options)
       .pipe(
-        map((autoCompleteRes) => {
-          return this.fetchAutoCompleteData(autoCompleteRes);
-        })
+        map(
+          (autoCompleteRes) => {
+            return this.fetchAutoCompleteData(autoCompleteRes);
+          },
+          catchError((err) => {
+            console.log(err);
+            return err;
+          })
+        )
       );
   }
 
