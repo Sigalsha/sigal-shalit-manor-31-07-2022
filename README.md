@@ -1,6 +1,6 @@
 # Sigal-Shalit-Manor 31-07-2022 - Herolo/Abra Weather App
 
-[Live App](https://crm-system-app.herokuapp.com/)
+[Live App](https://sigalsha.github.io/sigal-shalit-manor-31-07-2022/)
 
 ## Available Branches:
 
