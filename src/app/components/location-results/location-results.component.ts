@@ -2,13 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../store/reducers/app.reducer';
+import * as LocationActions from '../../store/actions/location.actions';
+import * as FavoriteActions from '../../store/actions/favorite.actions';
 import { WeatherService } from 'src/app/services/weather.service';
+import { LocalStorageService } from '../../services/local-storage.service';
+import { DefaultLocation } from '../../mocks/locationMock';
 import { Location } from '../../models/location.model';
 import { DailyForecast } from '../../models/dailyForecast.model';
-import { FiveDaysForecastResponse } from '../../models/api/fiveDaysForecastResponse.model';
-import { CurrentWeatherResponse } from '../../models/api/currentWeatherResponse.model';
-import * as LocationActions from '../../store/actions/location.actions';
-import { DefaultLocation } from '../../mocks/locationMock';
 @Component({
   selector: 'app-location-results',
   templateUrl: './location-results.component.html',
@@ -18,13 +18,16 @@ export class LocationResultsComponent implements OnInit, OnDestroy {
   subscription!: Subscription;
   locDataSub!: Subscription;
   dailyForecastSub!: Subscription;
-  currentWeatherTitle!: string;
+  addFavSub!: Subscription;
+  removeFavSub!: Subscription;
   locationResult!: Location;
   dailyForecasts!: DailyForecast[];
+  isFavoriteLocation!: boolean;
 
   constructor(
     private weatherService: WeatherService,
-    private store: Store<fromApp.AppState>
+    private store: Store<fromApp.AppState>,
+    private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit(): void {
@@ -56,8 +59,6 @@ export class LocationResultsComponent implements OnInit, OnDestroy {
   }
 
   subscribeToLocationData(): void {
-    console.log('results change');
-
     this.locDataSub = this.store
       .select('currentLocation')
       .subscribe(
@@ -66,8 +67,6 @@ export class LocationResultsComponent implements OnInit, OnDestroy {
   }
 
   subscribeToDailyForecastData(): void {
-    console.log('results change 2');
-
     this.dailyForecastSub = this.store
       .select('currentLocation')
       .subscribe(
@@ -80,5 +79,6 @@ export class LocationResultsComponent implements OnInit, OnDestroy {
     this.subscription?.unsubscribe();
     this.locDataSub?.unsubscribe();
     this.dailyForecastSub?.unsubscribe();
+    this.addFavSub?.unsubscribe();
   }
 }

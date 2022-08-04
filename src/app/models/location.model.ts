@@ -3,5 +3,4 @@ export interface Location {
   name: string;
   currentWeather: string;
   temperature: number;
-  isFavorite: boolean;
 }

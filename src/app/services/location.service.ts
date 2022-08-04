@@ -1,8 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpParams,
+  HttpHeaders,
+  HttpResponse,
+  HttpErrorResponse,
+} from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { ToastrNotificationService } from './toastr-notification.service';
 import { LocationAutocompleteResponse } from '../models/api/locationAutocompleteResponse.model';
 import { AutocompleteResult } from '../models/autocompleteResult.model';
 @Injectable({
@@ -12,7 +19,10 @@ export class LocationService {
   private _apiUrl = environment.autocompleteApi;
   private _apiKey = environment.apiKey;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private toastrService: ToastrNotificationService
+  ) {}
 
   getAutoCompleteSearchLocations(
     query: string
@@ -23,7 +33,6 @@ export class LocationService {
         'Content-Type': 'application/json',
       }),
     };
-
     const options = {
       httpHeaders,
       params: new HttpParams().set('apikey', this._apiKey).set('q', query),
@@ -31,15 +40,20 @@ export class LocationService {
     return this.http
       .get<LocationAutocompleteResponse[]>(this._apiUrl, options)
       .pipe(
-        map(
-          (autoCompleteRes) => {
-            return this.fetchAutoCompleteData(autoCompleteRes);
-          },
-          catchError((err) => {
-            console.log(err);
-            return err;
-          })
-        )
+        map((autoCompleteRes) => {
+          return this.fetchAutoCompleteData(autoCompleteRes);
+        }),
+        catchError((err) => {
+          if (err instanceof HttpErrorResponse) {
+            try {
+              this.toastrService.error(err.error.message, err.error.title);
+              alert(err.error.message);
+            } catch (e) {
+              this.toastrService.error('An error occurred', '');
+            }
+          }
+          return of(err);
+        })
       );
   }
 

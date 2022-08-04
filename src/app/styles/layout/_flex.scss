@@ -1,0 +1,23 @@
+%flex {
+  display: flex;
+}
+
+%f-it-cen {
+  align-items: center;
+}
+
+%f-j-bet {
+  justify-content: space-between;
+}
+
+%f-j-ce {
+  justify-content: center;
+}
+
+%f-fl-r {
+  flex-flow: row wrap;
+}
+
+%f-fl-c {
+  flex-flow: column wrap;
+}

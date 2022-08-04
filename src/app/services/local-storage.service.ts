@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { of, Observable } from 'rxjs';
 import { Location } from '../models/location.model';
-import { FavoritesState } from '../store/reducers/favorite.reducer';
 
 @Injectable({
   providedIn: 'root',
@@ -10,11 +10,11 @@ export class LocalStorageService {
     localStorage.setItem('favorites', JSON.stringify(data));
   }
 
-  getFavoritesLocations(): Location[] | [] {
+  getFavoritesLocations(): Observable<Location[] | []> {
     if (localStorage.getItem('favorites') !== null) {
-      return JSON.parse(localStorage.getItem('favorites') || '{}');
+      return of(JSON.parse(localStorage.getItem('favorites') || '{}'));
     }
-    return [];
+    return of([]);
   }
 
   clearFavoritesLocations(): void {

@@ -6,9 +6,6 @@ export const DefaultLocation: LocationState = {
     name: 'Tel Aviv',
     currentWeather: '',
     temperature: 0,
-    isFavorite: false,
   },
   dailyForecasts: [],
-  locationLoading: true,
-  dailyForecastsLoading: true,
 };

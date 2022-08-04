@@ -1,8 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, forkJoin, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpParams,
+  HttpHeaders,
+  HttpErrorResponse,
+} from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { ToastrNotificationService } from './toastr-notification.service';
 import { CurrentWeatherResponse } from '../models/api/currentWeatherResponse.model';
 import { FiveDaysForecastResponse } from '../models/api/fiveDaysForecastResponse.model';
 import { DailyForecast } from '../models/dailyForecast.model';
@@ -15,7 +21,10 @@ export class WeatherService {
   private _apiKey = environment.apiKey;
   private _apiUrlDays = environment.dailyForecastsApi;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private toastrService: ToastrNotificationService
+  ) {}
 
   getCurrentWeather(id: number): Observable<CurrentWeatherResponse[]> {
     const httpHeaders = {
@@ -31,13 +40,17 @@ export class WeatherService {
     return this.http
       .get<CurrentWeatherResponse[]>(`${this._apiUrl}${id}`, options)
       .pipe(
-        map(
-          (res) => res,
-          catchError((err) => {
-            console.log(err);
-            return err;
-          })
-        )
+        map((res) => res),
+        catchError((err) => {
+          if (err instanceof HttpErrorResponse) {
+            try {
+              this.toastrService.error(err.error.message, err.error.title);
+            } catch (e) {
+              this.toastrService.error('An error occurred', '');
+            }
+          }
+          return of(err);
+        })
       );
   }
 
@@ -55,13 +68,17 @@ export class WeatherService {
     return this.http
       .get<FiveDaysForecastResponse>(`${this._apiUrlDays}${id}`, options)
       .pipe(
-        map(
-          (res) => res,
-          catchError((err) => {
-            console.log(err);
-            return err;
-          })
-        )
+        map((res) => res),
+        catchError((err) => {
+          if (err instanceof HttpErrorResponse) {
+            try {
+              this.toastrService.error(err.error.message, err.error.title);
+            } catch (e) {
+              this.toastrService.error('An error occurred', '');
+            }
+          }
+          return of(err);
+        })
       );
   }
 
@@ -86,7 +103,6 @@ export class WeatherService {
       name: locationName ? locationName : 'Tel Aviv',
       currentWeather: locationData[0].WeatherText,
       temperature: Math.ceil(locationData[0].Temperature.Metric.Value),
-      isFavorite: false,
     };
   }
 

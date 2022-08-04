@@ -1,0 +1,13 @@
+@use "../../styles/main.scss";
+
+.clear-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  scroll-behavior: smooth;
+}
+
+.no-fav {
+  text-align: center;
+  margin-top: 5rem;
+  font-size: 1.2em;
+}

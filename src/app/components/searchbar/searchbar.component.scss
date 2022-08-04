@@ -1,6 +1,9 @@
+@use "../../styles/main.scss";
+
 .search-form {
-  max-width: 60vw;
   margin: 2rem auto;
+  @extend %flex;
+  @extend %f-j-ce;
 }
 
 .mat-form-field-infix {

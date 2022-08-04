@@ -7,9 +7,6 @@ import { DailyForecast } from '../../models/dailyForecast.model';
 })
 export class DailyForecastsComponent implements OnInit {
   @Input() dailyForecasts!: DailyForecast[];
-  constructor() {}
 
-  ngOnInit(): void {
-    console.log(this.dailyForecasts);
-  }
+  ngOnInit(): void {}
 }

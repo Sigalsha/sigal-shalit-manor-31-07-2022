@@ -1,12 +1,10 @@
-import { Location } from '../../models/location.model';
 import * as locActions from '../actions/location.actions';
+import { Location } from '../../models/location.model';
 import { DailyForecast } from '../../models/dailyForecast.model';
 
 export interface LocationState {
   currentLocation: Location;
   dailyForecasts: DailyForecast[];
-  locationLoading: boolean;
-  dailyForecastsLoading: boolean;
 }
 
 const initialState: LocationState = {
@@ -15,11 +13,8 @@ const initialState: LocationState = {
     name: '',
     currentWeather: '',
     temperature: 0,
-    isFavorite: false,
   },
   dailyForecasts: [],
-  locationLoading: true,
-  dailyForecastsLoading: true,
 };
 
 export function locationReducer(
@@ -31,23 +26,16 @@ export function locationReducer(
       return {
         ...state,
         currentLocation: action.payload,
-        locationLoading: false,
       };
     case locActions.SET_FIVE_DAYS_FORECAST:
       return {
         ...state,
         dailyForecasts: action.payload,
-        dailyForecastsLoading: false,
       };
-    case locActions.LOCATION_LOADING:
+    case locActions.SET_LOCATION_IS_FAVORITE:
       return {
         ...state,
-        locationLoading: true,
-      };
-    case locActions.DAILY_FORECASTS_LOADING:
-      return {
-        ...state,
-        dailyForecastsLoading: true,
+        currentLocation: action.payload,
       };
     default:
       return state;

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiKey: 'MtoQd62TAl5buckrt5EXkWw46h76WdNq',
+  apiKey: 'PrYdYR0XAGaPO3cj88PVwuP5mJPApHGc',
   autocompleteApi:
     'http://dataservice.accuweather.com/locations/v1/cities/autocomplete',
   currentWeatherApi: 'http://dataservice.accuweather.com/currentconditions/v1/',

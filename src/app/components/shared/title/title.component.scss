@@ -1,5 +1,22 @@
+@use "../../../styles/main.scss";
+
 .title {
-  margin: 5rem auto;
+  margin: 2.5rem auto;
   text-align: center;
-  font-size: 3em;
+  color: main.$medium-blue;
+  font-weight: bold;
+  font-size: 3.7em;
+}
+
+@media screen and (max-width: 700px) {
+  .title {
+    font-size: 3.2em;
+    margin: 1.5rem auto;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .title {
+    font-size: 2.8em;
+  }
 }

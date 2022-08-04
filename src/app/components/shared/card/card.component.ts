@@ -1,12 +1,4 @@
-import {
-  Component,
-  OnInit,
-  ContentChild,
-  EventEmitter,
-  Input,
-  Output,
-  TemplateRef,
-} from '@angular/core';
+import { Component, ContentChild, Input, TemplateRef } from '@angular/core';
 import { Location } from '../../../models/location.model';
 import { DailyForecast } from '../../../models/dailyForecast.model';
 
@@ -17,9 +9,5 @@ import { DailyForecast } from '../../../models/dailyForecast.model';
 })
 export class CardComponent {
   @Input() cards!: Location[] | DailyForecast[];
-  // @Output() onGetCard: EventEmitter<any> = new EventEmitter();
-
   @ContentChild(TemplateRef) customTemplateRef!: TemplateRef<any>;
-
-  // onGetCard(): void {}
 }

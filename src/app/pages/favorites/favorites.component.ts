@@ -1,14 +1,16 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, map, Subscription } from 'rxjs';
+import { Subscription, Observable, combineLatestWith } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../store/reducers/app.reducer';
-import { Location } from '../../models/location.model';
-import { DailyForecast } from '../../models/dailyForecast.model';
-import { WeatherService } from 'src/app/services/weather.service';
+import { FavoritesState } from '../../store/reducers/favorite.reducer';
 import * as LocationActions from '../../store/actions/location.actions';
 import * as FavoriteActions from '../../store/actions/favorite.actions';
+import { WeatherService } from 'src/app/services/weather.service';
 import { LocalStorageService } from '../../services/local-storage.service';
+import { Location } from '../../models/location.model';
+import { DailyForecast } from '../../models/dailyForecast.model';
 
 @Component({
   selector: 'app-favorites',
@@ -16,7 +18,10 @@ import { LocalStorageService } from '../../services/local-storage.service';
   styleUrls: ['./favorites.component.scss'],
 })
 export class FavoritesComponent implements OnInit, OnDestroy {
-  favorites!: Location[];
+  favorites$!: Observable<FavoritesState>;
+  favoritesFromLocalStr$!: Observable<[] | Location[]>;
+  fetchedFavorites!: any[];
+  fetchedFavoritesSub!: Subscription;
   subscription!: Subscription;
   favLocationSubscription!: Subscription;
 
@@ -28,24 +33,26 @@ export class FavoritesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subscription = this.store
-      .select('favorites')
-      .subscribe((favLocations) =>
-        favLocations &&
-        favLocations.favorites &&
-        favLocations.favorites.length >= 1
-          ? (this.favorites = favLocations.favorites)
-          : this.localStorageService.getFavoritesLocations().length >= 1
-          ? (this.favorites = this.localStorageService.getFavoritesLocations())
-          : (this.favorites = [])
-      );
-    console.log('favorites ', this.favorites);
+    this.favorites$ = this.store.select('favorites');
+    this.favoritesFromLocalStr$ =
+      this.localStorageService.getFavoritesLocations();
+    this.fetchedFavoritesSub = this.favorites$
+      .pipe(
+        combineLatestWith(this.favoritesFromLocalStr$),
+        map(([favorites, favoritesFromLS]: any) =>
+          favorites.length > 0
+            ? favorites
+            : favoritesFromLS.length > 0
+            ? favoritesFromLS
+            : []
+        )
+      )
+      .subscribe((res) => (this.fetchedFavorites = res));
   }
 
-  handleFavoriteClick(id: number): void {
-    // debugger;
+  handleFavoriteClick(id: number, name: string): void {
     this.favLocationSubscription = this.weatherService
-      .getAllWeatherData(id)
+      .getAllWeatherData(id, name)
       .subscribe(
         (allWeatherData: {
           location: Location;
@@ -54,21 +61,18 @@ export class FavoritesComponent implements OnInit, OnDestroy {
           this.store.dispatch(
             new LocationActions.SetLocation(allWeatherData.location)
           );
+
           this.store.dispatch(
             new LocationActions.SetFiveDaysForecast(allWeatherData.forecasts)
           );
+          this.router.navigate(['/']);
         }
       );
-    this.router.navigate(['/']);
-  }
-
-  clearAllFavorites(): void {
-    this.localStorageService.clearFavoritesLocations();
-    this.store.dispatch(new FavoriteActions.ClearAllFavorites());
   }
 
   ngOnDestroy() {
     this.subscription?.unsubscribe();
     this.favLocationSubscription?.unsubscribe();
+    this.fetchedFavoritesSub?.unsubscribe();
   }
 }

@@ -6,7 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./title.component.scss'],
 })
 export class TitleComponent implements OnInit {
-  @Input() title: string = '';
+  @Input() title!: string;
 
   constructor() {}
 

@@ -8,12 +8,14 @@ import {
   filter,
   startWith,
   switchMap,
+  catchError,
 } from 'rxjs/operators';
-import * as fromApp from '../../store/reducers/app.reducer';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import * as fromApp from '../../store/reducers/app.reducer';
+import * as LocationActions from '../../store/actions/location.actions';
 import { LocationService } from 'src/app/services/location.service';
 import { WeatherService } from 'src/app/services/weather.service';
-import * as LocationActions from '../../store/actions/location.actions';
+import { ToastrNotificationService } from 'src/app/services/toastr-notification.service';
 import { Location } from '../../models/location.model';
 import { DailyForecast } from '../../models/dailyForecast.model';
 export interface City {
@@ -25,7 +27,7 @@ export interface City {
   styleUrls: ['./searchbar.component.scss'],
 })
 export class SearchbarComponent implements OnInit, OnDestroy {
-  searchControl: FormControl = new FormControl('Tel');
+  searchControl: FormControl = new FormControl('');
   faMagnifyingGlass = faMagnifyingGlass;
   filteredOptions!: Observable<City[]>;
   subscription!: Subscription;
@@ -33,7 +35,8 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   constructor(
     private locationService: LocationService,
     private store: Store<fromApp.AppState>,
-    private weatherService: WeatherService
+    private weatherService: WeatherService,
+    private toastrService: ToastrNotificationService
   ) {}
 
   ngOnInit(): void {
@@ -49,19 +52,20 @@ export class SearchbarComponent implements OnInit, OnDestroy {
       switchMap((searchQuery) => {
         let query = searchQuery !== '' ? searchQuery : this.searchControl.value;
         return this.locationService.getAutoCompleteSearchLocations(query);
+      }),
+      catchError((err) => {
+        this.toastrService.error(err.error.message, err.error.title);
+        return [];
       })
     );
   }
 
   private _filter(query: string): boolean {
-    debugger;
     return query !== '' && /^[a-zA-Z]{1,}$/.test(query);
   }
 
-  // filter((val) => !/^[a-zA-Z]{1,}$/.test(val)),
-
   displayFn(city: City): string {
-    return city && city.name ? city.name : 'Tel';
+    return city && city.name ? city.name : '';
   }
 
   handleAutocompleteSearch(searchValue: FormControl['value']) {
@@ -81,6 +85,12 @@ export class SearchbarComponent implements OnInit, OnDestroy {
             );
           }
         );
+      this.searchControl.setValue('');
+    } else {
+      this.toastrService.warning(
+        'you should fill a city with English letters only',
+        'Attention!'
+      );
     }
   }
 

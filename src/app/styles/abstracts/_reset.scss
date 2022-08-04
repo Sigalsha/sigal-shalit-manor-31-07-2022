@@ -1,0 +1,66 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  /* font: inherit; */
+  text-decoration: none;
+}
+
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+button {
+  outline: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: 100%;
+  overflow: visible;
+  text-transform: none;
+  background-color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+button:hover,
+a:hover {
+  cursor: pointer;
+}
+
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  font-weight: normal;
+  margin: 0;
+}

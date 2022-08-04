@@ -7,12 +7,7 @@
     </div>
   </div>
   <ng-container
-    *ngIf="
-      (locationResult && locationResult.isFavorite) ||
-        isCurrentLocationFavorite;
-      then remove;
-      else add
-    "
+    *ngIf="isFavoriteLocation; then remove; else add"
   ></ng-container>
   <ng-template #remove>
     <button

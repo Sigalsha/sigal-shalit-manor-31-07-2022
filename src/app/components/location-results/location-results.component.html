@@ -4,8 +4,8 @@
     [locationResult]="locationResult"
   ></app-searched-location>
   <app-title
-    *ngIf="currentWeatherTitle"
-    [title]="currentWeatherTitle"
+    *ngIf="locationResult && locationResult.name"
+    [title]="locationResult.name"
   ></app-title>
   <app-daily-forecasts
     *ngIf="dailyForecasts"
