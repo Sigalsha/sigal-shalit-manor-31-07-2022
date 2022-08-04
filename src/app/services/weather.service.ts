@@ -127,11 +127,6 @@ export class WeatherService {
     id: number,
     locationName?: string
   ) {
-    console.log(
-      'dailyF from service',
-      this.fetchDailyForecast(allWeatherData[1], id, locationName)
-    );
-
     return {
       location: this.fetchLocationResult(allWeatherData[0], id, locationName),
       forecasts: this.fetchDailyForecast(allWeatherData[1], id, locationName),
