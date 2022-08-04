@@ -47,7 +47,6 @@ export class LocationService {
           if (err instanceof HttpErrorResponse) {
             try {
               this.toastrService.error(err.error.message, err.error.title);
-              alert(err.error.message);
             } catch (e) {
               this.toastrService.error('An error occurred', '');
             }
