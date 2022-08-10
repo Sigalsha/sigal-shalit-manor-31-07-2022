@@ -16,18 +16,12 @@
   @extend %just-c-cen;
   @extend %f-dir-col;
   @extend %align-i-cen;
-  @extend %f-gap-1-5;
-  padding: 2rem;
+  gap: 1rem;
   border-radius: 10px;
   background-color: main.$lightly-blue;
   color: rgba(0, 0, 0, 0.8);
-  font-size: 1.2em;
-}
-
-.fav-card {
-  padding: 0;
-  font-size: 1em;
   text-align: center;
+  font-weight: 550;
 }
 
 .fav-card:hover {
@@ -48,11 +42,22 @@
   .cards-container {
     padding: 2rem 6.5rem 0 6.5rem;
   }
+
+  .card {
+    font-size: 1.1em;
+  }
 }
 
 @media screen and (max-width: 700px) {
   .cards-container {
-    grid-template-columns: repeat(3, minmax(10vw, 1fr));
+    grid-template-columns: repeat(3, minmax(8vw, 1fr));
+    grid-template-rows: repeat(2, 15vh);
+    padding: 1rem;
+    margin: 0;
+  }
+
+  .card {
+    gap: 0.5rem;
   }
 
   .shrink-cards-con {
@@ -62,7 +67,10 @@
 
 @media screen and (max-width: 500px) {
   .cards-container {
-    grid-template-columns: repeat(2, minmax(10vw, 1fr));
+    margin: 2.5rem 0;
+    grid-template-columns: repeat(3, minmax(25vw, 1fr));
+    grid-template-rows: repeat(2, 12vh);
+    grid-gap: 1.5rem;
   }
 
   .shrink-cards-con {

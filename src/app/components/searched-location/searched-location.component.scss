@@ -55,27 +55,26 @@
 
 @media screen and (min-width: 1230px) {
   .searched-location-container {
-    max-width: 40vw;
-  }
-}
-
-@media screen and (max-width: 700px) {
-  .searched-location-container {
     max-width: 75vw;
-  }
-
-  .favorite-btn {
-    padding: 1rem;
   }
 }
 
 @media screen and (max-width: 500px) {
   .searched-location-container {
-    max-width: 80vw;
+    margin: 1rem 0 2rem 0;
+    justify-content: space-between;
+  }
+
+  .location-info-wrapper {
+    margin: 0 10vw;
   }
 
   .favorite-btn {
-    padding: 0.25rem;
-    font-size: 0.95em;
+    font-size: 2em;
+    padding: 1.5rem 1rem;
+  }
+
+  .favorite-btn p {
+    display: none;
   }
 }

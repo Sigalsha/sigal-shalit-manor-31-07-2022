@@ -1,10 +1,6 @@
 <ul class="cards-container" [ngClass]="cards.length < 2 && 'shrink-cards-con'">
   <ng-container *ngIf="cards">
-    <li
-      class="card"
-      [ngClass]="'fav-card'"
-      *ngFor="let card of cards; index as i"
-    >
+    <li class="card" *ngFor="let card of cards; index as i">
       <ng-container
         [ngTemplateOutlet]="customTemplateRef"
         [ngTemplateOutletContext]="{ $implicit: card, index: i }"
