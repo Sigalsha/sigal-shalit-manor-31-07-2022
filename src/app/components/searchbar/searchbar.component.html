@@ -15,7 +15,6 @@
       minLength="1"
       placeholder="Search a city"
     />
-    <!-- <fa-icon [icon]="faMagnifyingGlass" class="search-icon"></fa-icon> -->
     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
       <mat-option
         *ngFor="let option of filteredOptions | async"
