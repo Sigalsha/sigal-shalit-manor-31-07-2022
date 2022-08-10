@@ -1,20 +1,38 @@
 @use "../../styles/main.scss";
 
 .search-form {
-  margin: 2rem auto;
+  margin: 0 auto;
+  padding: 2rem 0;
   @extend %flex;
-  @extend %f-j-ce;
+  @extend %just-c-cen;
 }
 
 .mat-form-field-infix {
-  display: flex;
+  @extend %flex;
   flex-wrap: wrap;
+  background-color: rgba(214 219 225 / 0.5);
+  padding: 0.75rem 0;
+}
+
+::ng-deep .mat-form-field-underline,
+::ng-deep .mat-form-field-ripple {
+  background-color: main.$light-blue !important;
+  color: main.$light-blue !important;
+}
+
+mat-label {
+  color: main.$light-blue;
 }
 
 .search-input {
   width: 80%;
+  color: main.$white-smoke;
+}
+
+.search-btn {
+  color: main.$light-blue;
 }
 
 .search-icon {
-  padding-right: 0.5rem;
+  padding-left: 1rem;
 }

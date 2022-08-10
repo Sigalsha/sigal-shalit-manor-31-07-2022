@@ -1,5 +1,26 @@
 @use "../../styles/main.scss";
 
+.favorites-container {
+  position: relative;
+  z-index: 2;
+}
+
+.fav-info-wrapper {
+  @extend %flex;
+  @extend %f-dir-col;
+  gap: 0.5rem;
+  letter-spacing: 0.05em;
+}
+
+.fav-info-wrapper div:first-child {
+  color: main.$yellow;
+  font-weight: 550;
+}
+
+.fav-info-wrapper div:nth-child(2) {
+  font-weight: 600;
+}
+
 .clear-btn {
   padding: 0.5rem 1rem;
   border-radius: 5px;

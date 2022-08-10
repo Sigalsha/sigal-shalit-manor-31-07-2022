@@ -1,42 +1,56 @@
 @use "../../styles/main.scss";
 
 .searched-location-container {
-  max-width: 60vw;
-  display: flex;
+  max-width: 95vw;
+  @extend %flex;
   align-content: center;
   text-align: center;
   margin: 1rem auto 2rem auto;
 }
 
 .location-info-wrapper {
-  display: flex;
-  padding: 1rem;
-  align-items: center;
+  @extend %flex;
+  @extend %align-i-cen;
+  flex-flow: row wrap;
+  color: main.$yellow;
+  margin: 0 auto;
 }
 
 .location-icon {
-  font-size: 2.5em;
-  margin: 0 1rem 1rem 0;
+  font-size: 1.5em;
 }
 
 .location-info {
-  display: inline-flex;
-  flex-direction: column;
-  padding: 0 0.5rem;
+  @extend %in-flex;
+  gap: 0.75rem;
+  padding-left: 1rem;
+  font-size: 1.7em;
+}
+
+.location-info p:first-child {
+  font-weight: 550;
+}
+
+.location-info p:last-child {
+  font-weight: 600;
 }
 
 .favorite-btn {
-  padding: 1.5rem;
-  max-height: 2.5rem;
-  margin: auto 0 auto auto;
-  display: inline-flex;
+  padding: 1.5rem 1rem;
+  max-height: 2rem;
+  @extend %in-flex;
   gap: 0.5rem;
-  background-color: main.$light-blue;
+  background-color: main.$active-blue;
   border-radius: 5px;
-  @extend %f-it-cen;
+  @extend %align-i-cen;
   box-shadow: 3px 3px rgb(0 0 0 / 14%);
-  background-color: #3282b8;
   border-radius: 5px;
+  font-size: 1em;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.fav-icon {
+  color: rgb(255 0 0 / 50%);
 }
 
 @media screen and (min-width: 1230px) {

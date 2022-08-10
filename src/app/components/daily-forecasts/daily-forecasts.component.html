@@ -1,8 +1,8 @@
 <section>
   <app-card [cards]="dailyForecasts">
     <ng-template #customTemplateRef let-dailyForecast let-id="index">
-      <div>{{ dailyForecast.day | date: "E" }}</div>
-      <div>{{ dailyForecast.temperature }}</div>
+      <div>{{ dailyForecast.day | date: "EEEE" }}</div>
+      <div>{{ dailyForecast.temperature }}°</div>
     </ng-template>
   </app-card>
 </section>

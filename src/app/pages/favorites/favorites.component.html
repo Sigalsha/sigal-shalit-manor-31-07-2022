@@ -1,20 +1,30 @@
-<app-title title="Favorites"></app-title>
-<section>
-  <ng-container *ngIf="fetchedFavorites.length > 0; else noFavorites">
-    <app-card [cards]="fetchedFavorites">
-      <ng-template #customTemplateRef let-favorite let-id="index">
-        <div (click)="handleFavoriteClick(favorite.id, favorite.name)">
-          <div>{{ favorite.name }}</div>
-          <div>{{ favorite.temperature }}</div>
-          <div>{{ favorite.currentWeather }}</div>
-        </div>
-      </ng-template>
-    </app-card>
-    <!--     <button type="button" (click)="clearAllFavorites()" class="clear-btn">
+<div class="favorites-container">
+  <app-title title="Favorites"></app-title>
+  <section>
+    <ng-container *ngIf="fetchedFavorites.length > 0; else noFavorites">
+      <app-card [cards]="fetchedFavorites">
+        <ng-template
+          #customTemplateRef
+          let-favorite
+          let-id="index"
+          [ngClass]="true"
+        >
+          <div
+            (click)="handleFavoriteClick(favorite.id, favorite.name)"
+            class="fav-info-wrapper"
+          >
+            <div>{{ favorite.name }}</div>
+            <div>{{ favorite.temperature }}°</div>
+            <div>{{ favorite.currentWeather }}</div>
+          </div>
+        </ng-template>
+      </app-card>
+      <!--     <button type="button" (click)="clearAllFavorites()" class="clear-btn">
       clear all favorites
     </button> -->
-  </ng-container>
-  <ng-template #noFavorites>
-    <div class="no-fav">There are no favorite location yet...</div>
-  </ng-template>
-</section>
+    </ng-container>
+    <ng-template #noFavorites>
+      <div class="no-fav">There are no favorite location yet...</div>
+    </ng-template>
+  </section>
+</div>

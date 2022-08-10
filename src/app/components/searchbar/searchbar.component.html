@@ -15,7 +15,6 @@
       minLength="1"
       placeholder="Search a city"
     />
-    <!-- <fa-icon [icon]="faMagnifyingGlass" class="search-icon"></fa-icon> -->
     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
       <mat-option
         *ngFor="let option of filteredOptions | async"
@@ -24,8 +23,8 @@
         {{ option.name }}
       </mat-option>
     </mat-autocomplete>
-    <button type="submit" mat-button>
-      <fa-icon [icon]="faMagnifyingGlass"></fa-icon>
+    <button type="submit" mat-button class="search-btn">
+      <fa-icon [icon]="faMagnifyingGlass" class="search-icon"></fa-icon>
     </button>
   </mat-form-field>
 </form>

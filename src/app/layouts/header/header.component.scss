@@ -2,13 +2,24 @@
 
 .header-container {
   @extend %flex;
-  @extend %f-it-cen;
-  @extend %f-j-bet;
+  @extend %align-i-cen;
+  @extend %just-c-space-b;
   padding: 0.75rem 1rem;
   background-color: main.$dark-blue;
   color: main.$white-smoke;
+  height: 10vh;
 }
 
-h3 {
+.header-title {
   margin: 0;
+}
+
+@media screen and (max-width: 500px) {
+  .header-container {
+    padding: 0 0.75rem;
+  }
+
+  .header-title {
+    font-size: 0.85em;
+  }
 }

@@ -2,7 +2,16 @@
 $ff-main: "Lato", sans-serif;
 
 /* Font-Size */
-$fs: ();
+$fs: (
+  2-5-em: 2.5em,
+  095-em: 0.95em,
+  3-7-em: 3.7em,
+  3-2-em: 3.2em,
+  2-8-em: 2.8em,
+  1-2-em: 1.2em,
+
+  100: 100%
+);
 
 /* Font-Weight */
 $fw: (
