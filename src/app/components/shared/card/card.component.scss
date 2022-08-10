@@ -54,7 +54,7 @@
     grid-template-columns: repeat(3, minmax(8vw, 1fr));
     grid-template-rows: repeat(2, 15vh);
     padding: 1rem 0.25rem;
-    margin: 0;
+    margin: 2.5rem 1rem;
   }
 
   .card {
@@ -69,7 +69,6 @@
 
 @media screen and (max-width: 500px) {
   .cards-container {
-    margin: 2.5rem 0;
     grid-template-columns: repeat(3, minmax(25vw, 1fr));
     grid-template-rows: repeat(2, 12vh);
     grid-gap: 1.5rem;
