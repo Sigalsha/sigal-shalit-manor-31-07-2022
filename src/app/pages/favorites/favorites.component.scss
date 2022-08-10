@@ -8,8 +8,7 @@
 .fav-info-wrapper {
   @extend %flex;
   @extend %f-dir-col;
-  gap: 0.5rem;
-  letter-spacing: 0.05em;
+  gap: 0.25rem;
 }
 
 .fav-info-wrapper div:first-child {
@@ -31,4 +30,11 @@
   text-align: center;
   margin-top: 5rem;
   font-size: 1.2em;
+}
+
+@media screen and (max-width: 700px) {
+  .fav-info-wrapper {
+    gap: 0.25rem;
+    letter-spacing: initial;
+  }
 }

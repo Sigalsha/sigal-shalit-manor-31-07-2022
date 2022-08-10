@@ -7,7 +7,7 @@
 }
 
 %grid-tem-row {
-  grid-template-rows: 15vh;
+  grid-template-rows: minmax(15vh, 1fr);
 }
 
 %grid-gap {
